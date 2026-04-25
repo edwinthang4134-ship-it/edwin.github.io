@@ -1,0 +1,358 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.wrap {
+  padding: 1.5rem 1rem;
+  font-family: var(--font-sans);
+  background: #FFF9F0;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.deco {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.18;
+}
+.d1 { width: 120px; height: 120px; background: #FFB347; top: -30px; left: -30px; }
+.d2 { width: 80px; height: 80px; background: #7F77DD; top: 20px; right: 40px; }
+.d3 { width: 60px; height: 60px; background: #5DCAA5; bottom: 40px; left: 20px; }
+.d4 { width: 100px; height: 100px; background: #ED93B1; bottom: -20px; right: -20px; }
+
+.star {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.5;
+}
+.s1 { top: 30px; left: 180px; }
+.s2 { top: 60px; right: 150px; }
+.s3 { bottom: 60px; left: 120px; }
+
+.inner { position: relative; z-index: 1; max-width: 620px; margin: auto; }
+
+.quiz-header { text-align: center; margin-bottom: 1.4rem; }
+.quiz-header .emoji-row { font-size: 28px; margin-bottom: 8px; }
+.quiz-header h1 { font-size: 21px; font-weight: 500; color: #3C3489; }
+.quiz-header p { font-size: 13px; color: #5F5E5A; margin-top: 5px; }
+
+.progress-bar {
+  height: 10px;
+  background: #EDE9F7;
+  border-radius: 99px;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #7F77DD;
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+.step-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #7F77DD;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.step-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #26215C;
+  margin-bottom: 14px;
+}
+
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.cards-grid.two-col { grid-template-columns: 1fr 1fr; }
+
+.card-btn {
+  background: #fff;
+  border: 2px solid #E8E4F7;
+  border-radius: 16px;
+  padding: 14px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, transform 0.12s, box-shadow 0.12s;
+}
+.card-btn:hover {
+  border-color: #AFA9EC;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(127,119,221,0.15);
+}
+
+.card-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 8px;
+}
+.tag-a { background: #B5D4F4; color: #0C447C; }
+.tag-v { background: #C0DD97; color: #27500A; }
+.tag-k { background: #FAC775; color: #633806; }
+
+.card-title { font-size: 14px; font-weight: 500; color: #26215C; margin-bottom: 5px; }
+.card-desc { font-size: 12px; color: #5F5E5A; line-height: 1.55; }
+
+.result-wrap {
+  background: #fff;
+  border: 2px solid #E8E4F7;
+  border-radius: 20px;
+  padding: 1.4rem;
+}
+.result-top { text-align: center; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1.5px dashed #E8E4F7; }
+.result-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 99px;
+  background: #EEEDFE;
+  color: #534AB7;
+  margin-bottom: 8px;
+}
+.result-type { font-size: 20px; font-weight: 500; color: #26215C; margin-bottom: 10px; }
+.attn-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+.attn-pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+.ap1 { background: #C0DD97; color: #27500A; }
+.ap2 { background: #FAC775; color: #633806; }
+.ap3 { background: #F5C4B3; color: #712B13; }
+
+.result-intro { font-size: 13px; color: #444441; line-height: 1.75; }
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #26215C;
+  margin: 1rem 0 8px;
+}
+.sec-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-green { background: #639922; }
+.dot-coral { background: #D85A30; }
+
+.trait-item {
+  font-size: 13px;
+  color: #5F5E5A;
+  line-height: 1.6;
+  padding: 5px 0 5px 14px;
+  border-left: 3px solid #C0DD97;
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+.challenge-item {
+  font-size: 13px;
+  color: #5F5E5A;
+  line-height: 1.6;
+  padding: 5px 0 5px 14px;
+  border-left: 3px solid #F0997B;
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.btns { display: flex; gap: 8px; margin-top: 1.2rem; flex-wrap: wrap; }
+.btn-restart {
+  background: #EEEDFE;
+  border: none;
+  border-radius: 99px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #534AB7;
+  transition: background 0.12s;
+}
+.btn-restart:hover { background: #CECBF6; }
+.btn-share {
+  background: #7F77DD;
+  border: none;
+  border-radius: 99px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.12s;
+}
+.btn-share:hover { background: #534AB7; }
+
+.hidden { display: none !important; }
+</style>
+
+<div class="wrap">
+  <div class="deco d1"></div>
+  <div class="deco d2"></div>
+  <div class="deco d3"></div>
+  <div class="deco d4"></div>
+  <div class="star s1">✦</div>
+  <div class="star s2">✦</div>
+  <div class="star s3">✦</div>
+
+  <div class="inner">
+    <div class="quiz-header">
+      <div class="emoji-row" style="font-size:28px;">👁️ 🤸 🎧</div>
+      <h1>你的思维模式是哪种？</h1>
+      <p>来自《协同的力量》· 3步测出你的 KVA 思维模式</p>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+    <div id="step1">
+      <div class="step-label">第一步 · 共三步</div>
+      <div class="step-title">选一张最符合你的卡片 👇</div>
+      <div class="cards-grid">
+        <button class="card-btn" onclick="pick1('A1')">
+          <span class="card-tag tag-a">🎧 听觉 A1</span>
+          <div class="card-title">说话是我的强项</div>
+          <div class="card-desc">即使没有任何准备，在大庭广众之下也能流畅交流。措辞准确，语言逻辑清晰。</div>
+        </button>
+        <button class="card-btn" onclick="pick1('V1')">
+          <span class="card-tag tag-v">👁️ 视觉 V1</span>
+          <div class="card-title">我脑子里先有画面</div>
+          <div class="card-desc">想一个地方，脑海里会先浮现整个形貌。更喜欢写报告，胜过口头汇报。</div>
+        </button>
+        <button class="card-btn" onclick="pick1('K1')">
+          <span class="card-tag tag-k">🤸 动觉 K1</span>
+          <div class="card-title">我喜欢动起来</div>
+          <div class="card-desc">喜欢步行或走动。展示事情时，更喜欢分享亲身经历和动手完成的感受。</div>
+        </button>
+      </div>
+    </div>
+
+    <div id="step2" class="hidden">
+      <div class="step-label">第二步 · 共三步</div>
+      <div class="step-title">再选一张最符合你的 👇</div>
+      <div class="cards-grid two-col" id="step2-cards"></div>
+    </div>
+
+    <div id="step3" class="hidden">
+      <div class="step-label">🎉 第三步 · 结果出炉！</div>
+      <div class="result-wrap" id="result-box"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const step2Options = {
+  A1: [
+    { code:'K2', tag:'tag-k', icon:'🤸', label:'动觉 K2', title:'身体感受很真实', desc:'静着闭眼时，能感知自己身体内部的感觉。内心积聚着强大的能量。' },
+    { code:'A2', tag:'tag-a', icon:'🎧', label:'听觉 A2', title:'对话让我思维活跃', desc:'做决定时，更喜欢正反双方讨论。说话时喜欢用隐喻，并把故事完整讲出来。' }
+  ],
+  V1: [
+    { code:'K2', tag:'tag-k', icon:'🤸', label:'动觉 K2', title:'身体感受很真实', desc:'静着闭眼时，能感知自己身体内部的感觉。内心积聚着强大的能量。' },
+    { code:'A2', tag:'tag-a', icon:'🎧', label:'听觉 A2', title:'对话让我思维活跃', desc:'做决定时，更喜欢正反双方讨论。说话时喜欢用隐喻，并把故事完整讲出来。' }
+  ],
+  K1: [
+    { code:'V2', tag:'tag-v', icon:'👁️', label:'视觉 V2', title:'我用眼睛理解世界', desc:'静着闭眼，能在脑海浮现物体三维图形，从不同角度观察它们。' },
+    { code:'A2', tag:'tag-a', icon:'🎧', label:'听觉 A2', title:'对话让我思维活跃', desc:'做决定时，更喜欢正反双方讨论。说话时喜欢用隐喻，并把故事完整讲出来。' }
+  ]
+};
+
+const step3Map = { A1_K2:'VKA', A1_A2:'VAK', V1_K2:'VKA', V1_A2:'VAK', K1_V2:'KVA', K1_A2:'KAV' };
+
+const results = {
+  VAK: {
+    icon: '👁️✨',
+    badge: 'VAK 模式',
+    type: '视觉 → 听觉 → 动觉',
+    attn: ['👁️ 视觉 = 集中', '🎧 听觉 = 分配', '🤸 动觉 = 分散'],
+    intro: '你习惯展示和倾诉。逛商店或观察形形色色的人时，你喜欢观察事物的可能性，会向他人讲述亲眼所见。你的感受完全写在脸上——在你自己意识到情绪之前，别人或许已经从你脸上看出来了。',
+    strengths: ['不论做什么，从本质来看都在讲授或推销','喜欢用故事形式表述自己的观点','写作很有逻辑性','有很强的视觉记忆，记得住人的样貌和物品外观','可以长时间进行视觉工作','在谈话中，既能领会大意，又能抓住细节'],
+    challenges: ['或许越来越对身体感觉麻木，只"活在思想里"','学习某项肢体动作时需要反复练习','对身体接触比较敏感','长时间视觉活动后开始变得麻木无感']
+  },
+  VKA: {
+    icon: '🔭💫',
+    badge: 'VKA 模式',
+    type: '视觉 → 动觉 → 听觉',
+    attn: ['👁️ 视觉 = 集中', '🤸 动觉 = 分配', '🎧 听觉 = 分散'],
+    intro: '你在视觉上的谨小慎微通常令人震惊——能立刻在100页报告中找出唯一一个打印错误！个人形象对你非常重要。你凭直觉感受看到的事物，内心积聚着强大的能量。',
+    strengths: ['有极强的眼手协调及身体协调能力','很容易记住看过或读过的东西','能回忆一个人的长相但不一定能想起名字','很容易感知自己的内心感受和身体感觉','能感受到周围人正在经历的内心感受','具备清晰书写和准确校对的能力','更喜欢小组合作而不是单独工作'],
+    challenges: ['不喜欢在大庭广众之下自发发言','需要花很长时间组织语言','不喜欢别人抢话头','长时间收听内容或被追问细节时，很难集中注意力']
+  },
+  KVA: {
+    icon: '🌿🤫',
+    badge: 'KVA 模式',
+    type: '动觉 → 视觉 → 听觉',
+    attn: ['🤸 动觉 = 集中', '👁️ 视觉 = 分配', '🎧 听觉 = 分散'],
+    intro: '你说话温和，喜欢孤独，有一定的体能基础。你感兴趣的事物貌似大不相同，生来就喜欢研究不同事物如何整合。你倾向宽松舒服的衣服，在人多的场合会找安静的地方静静看着别人，通常被认为"很害羞"。',
+    strengths: ['是一个专心的聆听者，会问许多问题','做事有逻辑、有条理','睁眼时可以想象出三维物体形象，从任意角度想象','能从多个角度看待问题','既能看到整体，也能看到每一个细节','可以长时间从事体力活动','可以轻松学会新的肢体技巧'],
+    challenges: ['在大庭广众之下陈述观点会让你不自在','需要花很长时间组织语言，不喜欢别人抢话头','受不了交谈太久','对人们说话的语调很敏感']
+  },
+  KAV: {
+    icon: '🏃💪',
+    badge: 'KAV 模式',
+    type: '动觉 → 听觉 → 视觉',
+    attn: ['🤸 动觉 = 集中', '🎧 听觉 = 分配', '👁️ 视觉 = 分散'],
+    intro: '你的肢体活动非常活跃，但眼神或许是害羞而敏感的。一旦有机会，你很可能动个不停，即使坐着也很少能老实。你喜欢通过有形的方式（动作或接触）与世界联系，或许是一个协调能力极好的"天生"运动员。',
+    strengths: ['体力很好，实践能力强，喜欢徒步行走和活动','做事有逻辑，有条理，行为有力、沉稳、直接','喜欢把亲身经历以故事方式讲出来','看待问题很全面','能准确说出身体感受的部位','擅长教人们如何做事，将行为转换为语言对你很简单'],
+    challenges: ['受不了大量眼神交流或复杂视觉图形','需要走动或轻轻摇晃，长时间坐着很不舒服','习以为常的随意接触可能会冒犯别人','"厌恶的"表情比身体或语言惩罚更伤人']
+  }
+};
+
+let choice1 = '';
+
+function pick1(code) {
+  choice1 = code;
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('progress').style.width = '33%';
+  const step2 = document.getElementById('step2');
+  step2.classList.remove('hidden');
+  const opts = step2Options[code];
+  document.getElementById('step2-cards').innerHTML = opts.map(o => `
+    <button class="card-btn" onclick="pick2('${o.code}')">
+      <span class="card-tag ${o.tag}">${o.icon} ${o.label}</span>
+      <div class="card-title">${o.title}</div>
+      <div class="card-desc">${o.desc}</div>
+    </button>
+  `).join('');
+}
+
+function pick2(code) {
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('progress').style.width = '100%';
+  const key = choice1 + '_' + code;
+  const modeCode = step3Map[key] || 'VAK';
+  const r = results[modeCode];
+  const apCls = ['ap1','ap2','ap3'];
+  document.getElementById('step3').classList.remove('hidden');
+  document.getElementById('result-box').innerHTML = `
+    <div class="result-top">
+      <div style="font-size:32px;margin-bottom:8px;">${r.icon}</div>
+      <div class="result-badge">${r.badge}</div>
+      <div class="result-type">${r.type}</div>
+      <div class="attn-row">${r.attn.map((a,i)=>`<span class="attn-pill ${apCls[i]}">${a}</span>`).join('')}</div>
+      <div class="result-intro">${r.intro}</div>
+    </div>
+    <div class="section-head"><span class="sec-dot dot-green"></span>天赋与优势</div>
+    ${r.strengths.map(s=>`<div class="trait-item">${s}</div>`).join('')}
+    <div class="section-head"><span class="sec-dot dot-coral"></span>你面临的挑战</div>
+    ${r.challenges.map(c=>`<div class="challenge-item">${c}</div>`).join('')}
+    <div class="btns">
+      <button class="btn-restart" onclick="restart()">重新测试 ↩</button>
+      <button class="btn-share" onclick="sendPrompt('我的思维模式测试结果是${r.badge}（${r.type}），帮我写一段活泼有趣、适合发马来西亚华人Facebook的分享文案，引导朋友也来做测试')">生成分享文案 ↗</button>
+    </div>
+  `;
+}
+
+function restart() {
+  choice1 = '';
+  document.getElementById('progress').style.width = '0%';
+  document.getElementById('step1').classList.remove('hidden');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step3').classList.add('hidden');
+}
+</script>
